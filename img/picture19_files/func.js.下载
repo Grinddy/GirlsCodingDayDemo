@@ -1,0 +1,154 @@
+	
+
+$(function(){
+	/*Img Max-width*/
+	$(".edittext img").each(function(){
+		if($(this).width() > $(this).parents('.edittext').width()){
+			$(this).width("100%");
+			$(this).height("auto");
+		}
+	});
+
+
+	//var resizeheight = function(){
+	var heightfunc=function(){
+		var conheight=$('.container').height();
+		var leftheight=$('.conleft').outerHeight(true);
+		var rightheight=$('.conright').height();
+		if(leftheight > rightheight){
+			$('.conright').height(leftheight);
+		}else{
+			$('.conright').height('auto');
+		}
+	}
+
+		heightfunc();
+	$('.conright img').imagesLoaded(function(e){
+		heightfunc();
+	});
+
+		//console.log(leftheight)
+	//};
+	//resizeheight();
+	
+	/*$(window).resize(function(){
+		resizeheight();
+	});*/
+	
+	
+	$('.searchcon .input').focus(function(){
+		$(this).parents('.searchcon').addClass('search_on');
+	}).blur(function(){
+		$(this).parents('.searchcon').removeClass('search_on');
+	}); 
+
+
+	$('.nav .secnav').each(function(){
+		$(this).parents('li').hover(function(){
+			$(this).addClass('cur');
+			$(this).find('.secnav').stop(true,true).slideDown('fast');
+		}, function(){
+			$(this).removeClass('cur');
+			$(this).find('.secnav').slideUp('fast');
+		}).find('> a').click(function(){ /*return false;*/});
+	});
+
+
+	$('.sidebar ul').each(function(){
+		/*$(this).prev('a').click(function(){
+			if($(this).parent('li').hasClass('cur')){
+				
+				//$(this).parent('li').removeClass('cur').find('ul').slideUp(500);
+			}else{
+				//$(this).parent('li').addClass('cur').find('ul').slideDown(500);
+				//$(this).parent('li').siblings('li').removeClass('cur').find('ul').slideUp(500);
+				//$(this).parent('li').addClass('active').siblings('li').removeClass('active');
+			}
+			return false;
+		});*/
+		
+		if($(this).parent('li').hasClass('active')){
+			$(this).parent('li').addClass('haschildren');
+		}
+			console.log($(this).parent('li').attr('class'))
+
+		
+		
+	});
+
+	
+	$('.detailbot .btn a').wrapInner("<span></span>"); 
+	
+	
+	$('.newslist li').mouseover(function(){
+		$(this).addClass('cur');
+	}).mouseout(function(){
+		$(this).removeClass('cur');
+	});
+	
+	$('.newsimglist li').hover(function(){
+		$(this).addClass('cur');
+	},function(){
+		$(this).removeClass('cur');
+	})
+	
+	/*$('.teachconbox .item').hover(function(){
+		$(this).addClass('cur');
+	},function(){
+		$(this).removeClass('cur');
+	})*/
+
+	/*$('.teachconbox .item:first').addClass('cur');
+	$('.teachconbox .item').each(function(){
+		$(this).mouseenter(function(){
+			$(this).addClass('cur').siblings().removeClass('cur');
+		})
+	})*/
+	
+	
+	$(window).scroll(function(event){
+		var scrollTop = $(this).scrollTop();
+		var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
+		
+		var bodywidth=$(window).width();
+		var sideheight=$('.container').height();
+		var sideleft=$('.sidescroll').height();
+		
+		var conleftheight=$('.conleft').height();
+		var newsleft=$('.leftscroll').height();
+			
+		if(scrollTop >=73 && scrollTop < (sideheight - sideleft + 73 - 35 - 35)){
+			$('.sidescroll').css({'position':'fixed', 'top':'35px','width':'20%'});
+		}else if(scrollTop >= (sideheight - sideleft + 73 - 35 - 35)){
+			$('.sidescroll').css({'position':'absolute','width':'100%','top':sideheight - sideleft - 35 });
+		}else{
+			$('.sidescroll').css({'position':'relative', 'top':'0','width':'100%'});
+		}
+
+
+		if(scrollTop >=73 && scrollTop < (sideheight - newsleft + 73 - 35 - 35)){
+			$('.leftscroll').css({'position':'fixed', 'top':'35px','width':($('.conleft_1').width() - 110),'padding':'0 55px'});
+		}else if(scrollTop >= (sideheight - newsleft + 73 - 35 - 35)){
+			
+			$('.leftscroll').css({'position':'absolute','width':'auto','top':sideheight - newsleft - 35});
+		}else{
+			$('.leftscroll').css({'position':'relative', 'top':'0','width':'auto'});
+		}
+
+		
+
+
+		
+		//$('#test').html(scrollTop +' / '+ windowHeight + '/' + conleftheight + '/' +newsleft);
+	});
+	
+	
+	
+})
+
+
+
+function refreshCode()
+{
+	$('.code_class').attr("src", __ctx + '/kaptcha.do?seed=' + Math.random());
+}
